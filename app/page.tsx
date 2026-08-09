@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- externally licensed preview assets are intentionally rendered as responsive img elements. */
+
 import { FormEvent, useMemo, useState } from "react";
 
 type Category = {
@@ -195,6 +197,21 @@ const articles: Article[] = [
 const foods = ["さつまいも", "豆", "牛乳", "プロテイン", "玉ねぎ", "炭酸飲料", "ヨーグルト", "卵", "肉", "食物繊維"];
 const scenes = ["朝", "夜", "寝ている時", "食後", "空腹時", "職場", "デート", "運動中"];
 
+const visualAssets = {
+  science: {
+    src: "https://images.unsplash.com/photo-1780426272142-b6726b590e71?auto=format&fit=crop&w=1400&q=82",
+    alt: "光を受けてきらめく抽象的な泡のクローズアップ",
+  },
+  food: {
+    src: "https://images.unsplash.com/photo-1658308766948-01c85ade2737?auto=format&fit=crop&w=1400&q=82",
+    alt: "さつまいもと豆を使った料理",
+  },
+  morning: {
+    src: "https://images.unsplash.com/photo-1761587412860-222f6ce02f82?auto=format&fit=crop&w=1400&q=82",
+    alt: "朝の光が入る食卓と飲み物",
+  },
+};
+
 function categoryName(slug: string) {
   return categories.find((category) => category.slug === slug)?.label ?? "おなら研究所";
 }
@@ -266,7 +283,8 @@ export default function Home() {
             </form>
             <p className="hero-note"><span aria-hidden="true">●</span> 診断・治療を目的としたサイトではありません</p>
           </div>
-          <div className="hero-visual" aria-hidden="true">
+          <div className="hero-visual">
+            <div className="hero-photo-frame" aria-hidden="true"><img src={visualAssets.science.src} alt="" /></div>
             <div className="gas-dots"><i></i><i></i><i></i><i></i><i></i></div>
             <div className="study-card study-card-main"><p>SCIENCE NOTE</p><strong>おならは何で<br />できている？</strong><span>飲み込んだ空気と腸内由来のガス</span></div>
             <div className="study-card study-card-sub"><p>QUESTION</p><strong>臭いは、<br />どこから来る？</strong></div>
@@ -292,14 +310,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section food-section">
         <div className="shell split-heading"><SectionHeading kicker="FOOD INDEX" title="食べ物から探す" /><button className="text-link" onClick={() => chooseCategory("food")}>食べ物の記事を見る <span>→</span></button></div>
-        <div className="shell chips">{foods.map((food) => <button key={food} onClick={() => { setQuery(food); setSubmittedQuery(food); setActiveCategory(null); document.getElementById("search-results")?.scrollIntoView({ behavior: "smooth" }); }}>{food}</button>)}</div>
+        <div className="shell topic-visual-grid">
+          <figure className="topic-photo food-photo"><img src={visualAssets.food.src} alt={visualAssets.food.alt} loading="lazy" decoding="async" /><figcaption><span>FOOD NOTE</span><strong>食材ごとの疑問を、ひとつずつ。</strong></figcaption></figure>
+          <div className="topic-detail"><p>さつまいも、豆、牛乳、炭酸飲料など。食べ物ごとに記事を整理し、気になる入口から読めるようにします。</p><div className="chips">{foods.map((food) => <button key={food} onClick={() => { setQuery(food); setSubmittedQuery(food); setActiveCategory(null); document.getElementById("search-results")?.scrollIntoView({ behavior: "smooth" }); }}>{food}</button>)}</div></div>
+        </div>
       </section>
 
       <section className="section wash-section">
         <div className="shell split-heading"><SectionHeading kicker="LIFE SCENES" title="場面から探す" /><button className="text-link" onClick={() => chooseCategory("scene")}>時間・場面の記事を見る <span>→</span></button></div>
-        <div className="shell chips">{scenes.map((scene) => <button key={scene} onClick={() => { setQuery(scene); setSubmittedQuery(scene); setActiveCategory(null); document.getElementById("search-results")?.scrollIntoView({ behavior: "smooth" }); }}>{scene}</button>)}</div>
+        <div className="shell topic-visual-grid scene-visual-grid">
+          <div className="topic-detail"><p>朝、食後、寝ている間など、気になるタイミングから探せます。生活の場面を入口に、関連する記事へつなげます。</p><div className="chips">{scenes.map((scene) => <button key={scene} onClick={() => { setQuery(scene); setSubmittedQuery(scene); setActiveCategory(null); document.getElementById("search-results")?.scrollIntoView({ behavior: "smooth" }); }}>{scene}</button>)}</div></div>
+          <figure className="topic-photo scene-photo"><img src={visualAssets.morning.src} alt={visualAssets.morning.alt} loading="lazy" decoding="async" /><figcaption><span>LIFE SCENE</span><strong>時間や場面から、落ち着いて調べる。</strong></figcaption></figure>
+        </div>
       </section>
 
       <section id="science" className="section">
