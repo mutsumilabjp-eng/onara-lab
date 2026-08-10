@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./release.css";
+import { siteConfig } from "./site-config";
 
 export const metadata: Metadata = {
-  title: "おなら研究所｜確認用",
-  description: "おなら・放屁・腸内ガスの疑問を調べる専門メディアの確認版。",
-  robots: { index: false, follow: false },
-  other: { "codex-preview": "development" },
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.name, template: `%s｜${siteConfig.name}` },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  robots: { index: siteConfig.isPublicRelease, follow: siteConfig.isPublicRelease },
+  openGraph: { type: "website", locale: "ja_JP", siteName: siteConfig.name, title: siteConfig.name, description: siteConfig.description, url: siteConfig.url },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
