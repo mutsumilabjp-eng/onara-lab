@@ -17,6 +17,30 @@ const visualAssets = {
   morning: { src: "https://images.unsplash.com/photo-1761587412860-222f6ce02f82?auto=format&fit=crop&w=1400&q=82", alt: "朝の光が入る食卓と飲み物" },
 };
 
+
+const foodTopicLinks: Record<string, string> = {
+  "さつまいも": "/food/sweet-potato/",
+  "豆": "/food/beans/",
+  "牛乳": "/food/milk/",
+  "プロテイン": "/food/protein/",
+  "玉ねぎ": "/food/onion/",
+  "炭酸飲料": "/food/carbonated-drinks/",
+  "ヨーグルト": "/food/yogurt/",
+  "卵": "/food/egg/",
+  "肉": "/food/meat/",
+  "食物繊維": "/food/fiber/",
+};
+const sceneTopicLinks: Record<string, string> = {
+  "朝": "/scene/morning/",
+  "夜": "/scene/night/",
+  "寝ている時": "/scene/sleep/",
+  "食後": "/scene/after-meal/",
+  "空腹時": "/scene/empty-stomach/",
+  "職場": "/scene/workplace/",
+  "デート": "/scene/date/",
+  "運動中": "/scene/exercise/",
+};
+
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -85,13 +109,13 @@ export default function Home() {
     <section className="section food-section">
       <div className="shell split-heading"><SectionHeading kicker="FOOD INDEX" title="食べ物から探す" /><a className="text-link" href="/food/">食べ物の記事を見る <span>→</span></a></div>
       <div className="shell topic-visual-grid"><figure className="topic-photo food-photo"><img src={visualAssets.food.src} alt={visualAssets.food.alt} loading="lazy" decoding="async" /><figcaption><span>FOOD NOTE</span><strong>食材ごとの疑問を、ひとつずつ。</strong></figcaption></figure>
-        <div className="topic-detail"><p>食品名だけで原因を決めず、成分、食べ方、量、個人差を分けて考えます。食べ物の記事は、根拠の確認が済んだ順に追加します。</p><div className="chips">{foodTopics.map((food) => <a key={food} href="/food/">{food}</a>)}</div></div>
+        <div className="topic-detail"><p>食品名だけで原因を決めず、成分、食べ方、量、個人差を分けて考えます。食べ物の記事は、根拠の確認が済んだ順に追加します。</p><div className="chips">{foodTopics.map((food) => <a key={food} href={foodTopicLinks[food] ?? "/food/"}>{food}</a>)}</div></div>
       </div>
     </section>
 
     <section className="section wash-section">
       <div className="shell split-heading"><SectionHeading kicker="LIFE SCENES" title="場面から探す" /><a className="text-link" href="/scene/">時間・場面の記事を見る <span>→</span></a></div>
-      <div className="shell topic-visual-grid scene-visual-grid"><div className="topic-detail"><p>朝、食後、寝ている間など、気になるタイミングを入口にします。生活場面の説明は、推測と確認済みの情報を分けて公開します。</p><div className="chips">{sceneTopics.map((scene) => <a key={scene} href="/scene/">{scene}</a>)}</div></div>
+      <div className="shell topic-visual-grid scene-visual-grid"><div className="topic-detail"><p>朝、食後、寝ている間など、気になるタイミングを入口にします。生活場面の説明は、推測と確認済みの情報を分けて公開します。</p><div className="chips">{sceneTopics.map((scene) => <a key={scene} href={sceneTopicLinks[scene] ?? "/scene/"}>{scene}</a>)}</div></div>
         <figure className="topic-photo scene-photo"><img src={visualAssets.morning.src} alt={visualAssets.morning.alt} loading="lazy" decoding="async" /><figcaption><span>LIFE SCENE</span><strong>時間や場面から、落ち着いて調べる。</strong></figcaption></figure>
       </div>
     </section>

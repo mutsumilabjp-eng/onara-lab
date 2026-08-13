@@ -302,9 +302,19 @@ export const articles: Article[] = [
   { slug: "sweet-potato", category: "food", status: "planned", title: "さつまいもを食べるとおならが出るのはなぜ？", description: "食品名だけで断定しない形で、成分と個人差を整理する予定です。" },
   { slug: "beans", category: "food", status: "planned", title: "豆を食べるとおならが増えるのはなぜ？", description: "豆類と未消化の炭水化物、腸内細菌の関係を整理する予定です。" },
   { slug: "milk", category: "food", status: "planned", title: "牛乳を飲むとおならが出るのはなぜ？", description: "乳糖の消化などを、診断と切り分けて説明する予定です。" },
-  { slug: "protein", category: "food", status: "planned", title: "プロテインとおならの関係", description: "製品ごとの原材料差を前提に、根拠を確認して公開します。" },
-  { slug: "carbonated-drinks", category: "food", status: "planned", title: "炭酸飲料とおならの関係", description: "飲み込む気体と腸内ガスを混同しないように整理する予定です。" },
-  { slug: "gut-bacteria", category: "science", status: "planned", title: "おならと腸内細菌の関係", description: "腸内細菌を単純に善悪で分けず、研究の限界も添えて公開します。" },
+{ slug: "protein", category: "food", status: "planned", title: "プロテインとおならの関係", description: "製品ごとの原材料差を前提に、根拠を確認して公開します。" },
+{ slug: "carbonated-drinks", category: "food", status: "planned", title: "炭酸飲料とおならの関係", description: "飲み込む気体と腸内ガスを混同しないように整理する予定です。" },
+{ slug: "onion", category: "food", status: "planned", title: "玉ねぎでおならが気になるのはなぜ？", description: "発酵しやすい成分や食べる量、個人差を分けて整理する予定です。" },
+{ slug: "yogurt", category: "food", status: "planned", title: "ヨーグルトとおならの関係", description: "乳成分、菌の種類、食べる量による違いを確認して公開します。" },
+{ slug: "egg", category: "food", status: "planned", title: "卵とおならの臭いは関係する？", description: "たんぱく質や硫黄を含む成分との関係を、断定しすぎず整理します。" },
+{ slug: "meat", category: "food", status: "planned", title: "肉を食べるとおならは臭くなる？", description: "食事全体のたんぱく質量や便通との関係を確認して公開します。" },
+{ slug: "fiber", category: "food", status: "planned", title: "食物繊維でおならが増えるのは悪いこと？", description: "急に増やしたときのガス感と、食生活での大切さを分けて扱います。" },
+{ slug: "night", category: "scene", status: "planned", title: "夜におならが気になるときの見方", description: "一日の食事や腸の動きが積み重なる場面として整理する予定です。" },
+{ slug: "empty-stomach", category: "scene", status: "planned", title: "空腹時におならが出ることはある？", description: "食後以外でもガスが動く理由を、生活場面として整理します。" },
+{ slug: "workplace", category: "scene", status: "planned", title: "職場でおならが気になるとき", description: "食事、飲み方、席を立つタイミングなど現実的な工夫を整理します。" },
+{ slug: "date", category: "scene", status: "planned", title: "デート前におならが不安なとき", description: "直前に無理をしないための食事・飲み方の見方を扱います。" },
+{ slug: "exercise", category: "scene", status: "planned", title: "運動中におならが出そうになるのはなぜ？", description: "姿勢、腹圧、運動前の食事との関係を整理する予定です。" },
+{ slug: "gut-bacteria", category: "science", status: "planned", title: "おならと腸内細菌の関係", description: "腸内細菌を単純に善悪で分けず、研究の限界も添えて公開します。" },
 ];
 
 export const publishedArticles = articles.filter((article): article is Article & { status: "published" } => article.status === "published");
