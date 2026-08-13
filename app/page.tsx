@@ -50,13 +50,65 @@ const webSiteSchema = {
   inLanguage: "ja",
 };
 
+const searchAliases: Record<string, string[]> = {
+  "what-is-fart": [
+    "おならってなんで出る",
+    "おならはなんで出る",
+    "おならなぜ出る",
+    "おならの原因",
+    "おならが出る理由",
+    "ガスが出る理由",
+  ],
+  flatus: ["放屁とおならの違い", "ほうひ", "放屁 意味", "放屁 読み方", "flatus"],
+  "medical-term": ["おならの医学用語", "排ガス", "腸内ガス", "医学ではなんていう"],
+  components: ["おならの成分", "何でできている", "なにでできている", "窒素", "二酸化炭素", "水素", "メタン"],
+  "why-smells": ["おならが臭い", "おならはなぜ臭い", "くさい", "臭い原因", "硫黄", "硫黄の臭い"],
+  "how-many-per-day": ["おなら 何回", "1日何回", "一日何回", "回数", "多い", "おならが多い"],
+};
+
+function normalizeSearchText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFKC")
+    .replace(/[ぁ-ん]/g, (char) => String.fromCharCode(char.charCodeAt(0) + 0x60))
+    .replace(/[、。・,.!?！？「」『』（）()【】\[\]\s]/g, "");
+}
+
+function tokenizeSearchText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFKC")
+    .split(/[、。・,.!?！？「」『』（）()【】\s]|って|とは|との|では|には|から|まで|より|なぜ|なんで|どうして|の|と|が|は|を|に|で|へ|や|か|も|ね|よ|です|ます/g)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 2);
+}
+
+function articleMatchesSearch(article: (typeof publishedArticles)[number], rawQuery: string) {
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  if (!normalizedQuery) return true;
+
+  const haystack = normalizeSearchText([
+    article.title,
+    article.description,
+    article.conclusion,
+    ...(article.sections?.flatMap((section) => [section.heading, ...section.paragraphs, ...(section.bullets ?? [])]) ?? []),
+    ...(searchAliases[article.slug] ?? []),
+  ].filter(Boolean).join(" "));
+
+  if (haystack.includes(normalizedQuery)) return true;
+  if ((searchAliases[article.slug] ?? []).some((alias) => normalizeSearchText(alias).includes(normalizedQuery) || normalizedQuery.includes(normalizeSearchText(alias)))) return true;
+
+  const tokens = tokenizeSearchText(rawQuery);
+  return tokens.length > 0 && tokens.every((token) => haystack.includes(normalizeSearchText(token)));
+}
+
 export default function Home() {
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const visibleArticles = useMemo(() => {
-    const keyword = submittedQuery.trim().toLowerCase();
-    if (!keyword) return publishedArticles;
-    return publishedArticles.filter((article) => `${article.title} ${article.description}`.toLowerCase().includes(keyword));
+ const keyword = submittedQuery.trim();
+ if (!keyword) return publishedArticles;
+ return publishedArticles.filter((article) => articleMatchesSearch(article, keyword));
   }, [submittedQuery]);
 
   function submitSearch(event: FormEvent<HTMLFormElement>) {
