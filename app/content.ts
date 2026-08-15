@@ -353,5 +353,5 @@ export function categoryName(slug: string) {
 }
 
 export function articleUrl(article: Pick<Article, "category" | "slug">) {
-  return `/${article.category}/${article.slug}/`;
+ return `/${article.category}/${article.slug}`;
 }
