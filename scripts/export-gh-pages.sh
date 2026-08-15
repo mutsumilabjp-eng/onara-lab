@@ -19,7 +19,7 @@ while IFS= read -r page_file; do
   curl --fail --silent --show-error "$base_url$route" > "$output_dir/$page_file"
 done < <(git -C "$repo_root" ls-tree -r --name-only gh-pages | grep -E '(^|/)index\.html$')
 
-for root_file in 404.html CNAME .nojekyll; do
+for root_file in 404.html CNAME .nojekyll robots.txt sitemap.xml; do
   git -C "$repo_root" show "gh-pages:$root_file" > "$output_dir/$root_file"
 done
 
