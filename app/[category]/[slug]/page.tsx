@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { affiliatePrograms } from "../../affiliate-content";
+import { getArticleComic } from "../../comic-content";
+import { ArticleComic } from "../../components/ArticleComic";
 import { JsonLd } from "../../components/JsonLd";
 import { SiteFooter } from "../../components/SiteFooter";
 import { SiteHeader } from "../../components/SiteHeader";
@@ -56,6 +58,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const canonical = `${siteConfig.url}${articleUrl(article)}`;
   const related = getRelatedPublishedArticles(article);
   const articleAffiliatePrograms = getArticleAffiliatePrograms(article);
+  const articleComic = getArticleComic(article.category, article.slug);
   const schema = [
     {
       "@context": "https://schema.org",
@@ -111,6 +114,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <h2>{article.conclusion}</h2>
               </section>
             )}
+            {articleComic && <ArticleComic comic={articleComic} />}
             {article.sections?.map((section) => (
               <section className="article-section" key={section.heading}>
                 <h2>{section.heading}</h2>
