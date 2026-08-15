@@ -86,6 +86,10 @@ export const sourceLibrary = {
   },
 } satisfies Record<string, Source>;
 
+function publishedArticle(article: Omit<Article, "status" | "updatedAt"> & { updatedAt?: string }): Article {
+  return { status: "published", updatedAt: "2026-08-15", ...article };
+}
+
 export const articles: Article[] = [
   {
     slug: "what-is-fart",
@@ -317,8 +321,66 @@ export const articles: Article[] = [
 { slug: "gut-bacteria", category: "science", status: "planned", title: "おならと腸内細菌の関係", description: "腸内細菌を単純に善悪で分けず、研究の限界も添えて公開します。" },
 ];
 
-export const publishedArticles = articles.filter((article): article is Article & { status: "published" } => article.status === "published");
-export const plannedArticles = articles.filter((article): article is Article & { status: "planned" } => article.status === "planned");
+type CompletedArticleSpec = {
+  slug: string;
+  category: string;
+  title: string;
+  description: string;
+  conclusion: string;
+  main: string;
+  check: string;
+  care?: string;
+  sources: Source[];
+  relatedSlugs: string[];
+};
+
+const completedArticleSpecs: CompletedArticleSpec[] = [
+  { slug: "no-smell", category: "smell", title: "臭くないおならが出るのはなぜ？", description: "臭くないおならは珍しいことではありません。ガスの量と臭い成分は別に考える必要があります。", conclusion: "おならの多くは、強い臭いを持たないガスでできています。臭いが弱いから異常、強いから病気という見方はできません。量、食事、便通、急な変化を分けて見ることが大切です。", main: "腸内ガスには、窒素、酸素、二酸化炭素、水素、メタンなどが含まれます。これらの多くは強い臭いを持ちにくいため、音や量があっても臭いがあまりないことはあります。", check: "臭いの印象は、硫黄を含む少量のガスなどで変わります。ガス全体の量と臭いの強さを同じものとして扱わず、食事や便通の変化とあわせて見ます。", sources: [sourceLibrary.pubmedComposition, sourceLibrary.niddkSymptoms, sourceLibrary.medlineGas], relatedSlugs: ["why-smells", "components", "how-many-per-day"] },
+  { slug: "sulfur", category: "smell", title: "硫黄のような臭いのおならが出るのはなぜ？", description: "硫黄のような臭いは、少量の硫黄を含むガスなどが関係します。ただし臭いだけで原因は決められません。", conclusion: "硫黄のような臭いには、腸内で生じる硫黄を含むガスが関係することがあります。ただし、食事や便通など複数の要素で印象は変わるため、臭いだけで原因や病気を判断することはできません。", main: "おならの臭いには、硫化水素など硫黄を含むガスが関係するという研究があります。量としては少ない成分でも、臭いの印象には大きく影響することがあります。", check: "肉、卵、玉ねぎ、豆類など、気になりやすい食品はありますが、同じ食品でも人によって体感は違います。数日だけ食事と臭いの変化をメモすると整理しやすくなります。", sources: [sourceLibrary.pubmedOdor, sourceLibrary.niddkSymptoms, sourceLibrary.medlineGas], relatedSlugs: ["why-smells", "egg", "meat"] },
+  { slug: "sound", category: "amount", title: "おならの音はなぜ鳴る？", description: "おならの音は、ガスが肛門付近を通るときの振動や出る勢いなどで変わります。", conclusion: "おならの音は、ガスが出る量だけでなく、出る勢い、肛門周辺の締まり、姿勢などで変わります。音の大小だけで体調を判断するより、痛みや急な変化があるかを見ます。", main: "おならの音は、ガスが肛門付近を通るときに周囲が振動して起こります。同じ人でも、姿勢、力の入り方、出る勢いによって音は変わります。", check: "量が多ければ必ず大きな音になるわけではありません。少ない量でも勢いよく出れば音が大きくなることがあります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.medlineGas], relatedSlugs: ["loud", "how-many-per-day", "holding"] },
+  { slug: "loud", category: "amount", title: "おならの音が大きくなるのはなぜ？", description: "音の大きさは、ガスの勢い、姿勢、肛門周辺の力の入り方などで変わります。", conclusion: "おならの音が大きい時は、ガスの量だけでなく、出る勢い、姿勢、力み、我慢していた時間などが関係します。音そのものを病気のサインと決めつけず、腹痛や便通変化の有無を確認しましょう。", main: "我慢した後や、腹圧がかかった時は、ガスが勢いよく出て音が大きく感じることがあります。座り方や立ち上がる動作でも変わります。", check: "炭酸飲料、早食い、ガムなどで飲み込む空気が増えると、ガス感が増えることがあります。音を消すより、出やすい場面を知る方が現実的です。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["sound", "carbonated-drinks", "holding"] },
+  { slug: "holding", category: "basic", title: "おならを我慢するとどうなる？", description: "おならを我慢すると、張りや不快感につながることがあります。痛みや便通変化がある時は別に見ます。", conclusion: "おならを一時的に我慢することは多くの人にありますが、続くとお腹の張りや不快感を強めることがあります。我慢そのものより、痛み、便秘、下痢、急な変化があるかを確認しましょう。", main: "ガスは消化管の中にあるため、出さずにいるとお腹の張りや圧迫感として気になることがあります。職場や移動中では、不安も重なりやすくなります。", check: "完全に我慢するより、トイレに行ける時間帯を作る、食後すぐの予定を詰めすぎない、炭酸飲料や早食いを控えるなどの調整が現実的です。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiagnosis], relatedSlugs: ["workplace", "how-many-per-day", "what-is-fart"] },
+  { slug: "sleep", category: "scene", title: "寝ている間にもおならは出る？", description: "睡眠中も消化管のガスは存在します。寝ている間に出ること自体は特別ではありません。", conclusion: "寝ている間にもおならが出ることはあります。睡眠中も消化管にはガスがあり、体は完全に止まっているわけではありません。気になる場合は、夜の食事、便通、張り、痛みの有無を分けて見ましょう。", main: "消化管のガスは、飲み込んだ空気や大腸での分解過程によって生じます。寝ている間だからガスがなくなるわけではありません。", check: "夕食の量、食べる時間、炭酸飲料、食物繊維の増やし方などで、夜から朝の張りやガス感が変わることがあります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["night", "morning", "after-meal"] },
+  { slug: "morning", category: "scene", title: "朝におならが多いのはなぜ？", description: "朝のガス感は、睡眠中にたまったガス、姿勢の変化、便通のリズムなどが関係します。", conclusion: "朝におならが多いと感じる時は、夜間に出なかったガス、起床時の姿勢変化、朝の便通リズムが重なっていることがあります。急な変化や痛みがなければ、まず夕食と便通を見直します。", main: "寝ている間は姿勢が固定され、起き上がると腸内のガスの位置や体感が変わることがあります。朝のトイレ前後で出やすい人もいます。", check: "夕食が遅い、量が多い、炭酸飲料や発酵しやすい食品が多いなどで、朝の張りやガス感が変わることがあります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["sleep", "night", "after-meal"] },
+  { slug: "after-meal", category: "scene", title: "食後におならが出やすいのはなぜ？", description: "食後は飲み込む空気、腸の動き、未消化の炭水化物などが重なり、ガス症状を感じやすい時間です。", conclusion: "食後におならが出やすい時は、食べる時に飲み込む空気、食後の腸の動き、消化されにくい炭水化物が関係します。早食い、炭酸飲料、量の多い食事を見直すと、条件が見えやすくなります。", main: "食事や飲み物と一緒に、少量の空気を飲み込むことがあります。早食い、炭酸飲料、ガムなどは空気を増やす条件になります。", check: "一部の糖、でんぷん、食物繊維は小腸で十分に消化されず、大腸で細菌に分解される過程でガスが生じます。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet, sourceLibrary.medlineGas], relatedSlugs: ["carbonated-drinks", "fiber", "how-many-per-day"] },
+  { slug: "sweet-potato", category: "food", title: "さつまいもを食べるとおならが出るのはなぜ？", description: "さつまいもは炭水化物や食物繊維を含むため、人によってガス感が増えることがあります。", conclusion: "さつまいもでおならが気になる時は、食物繊維や消化されにくい炭水化物が大腸で分解され、ガスが生じる流れを考えます。悪い食品と決めつけず、量と食べる頻度を調整します。", main: "胃や小腸で消化されなかった一部の炭水化物は、大腸で細菌に分解されます。その過程でガスが生じます。", check: "急に多く食べると張りやガス感が気になることがあります。半量にする、ほかの食物繊維食品と重ねないなど、一つずつ変えて見ます。", sources: [sourceLibrary.niddkDiet, sourceLibrary.niddkSymptoms], relatedSlugs: ["fiber", "beans", "after-meal"] },
+  { slug: "beans", category: "food", title: "豆を食べるとおならが増えるのはなぜ？", description: "豆類には消化されにくい炭水化物が含まれ、大腸で分解される過程でガスが生じることがあります。", conclusion: "豆でおならが増えると感じる時は、豆に含まれる一部の炭水化物が大腸で分解される流れを考えます。豆が悪いのではなく、量、頻度、調理、食べ合わせで体感が変わります。", main: "NIDDKは、胃や小腸で十分に消化されない糖、でんぷん、食物繊維が大腸に届くと、細菌が分解してガスを作ると説明しています。", check: "普段あまり豆を食べない人が急に量を増やすと、張りやガス感が目立つことがあります。少量から試すと判断しやすくなります。", sources: [sourceLibrary.niddkDiet, sourceLibrary.niddkSymptoms], relatedSlugs: ["fiber", "sweet-potato", "gut-bacteria"] },
+  { slug: "milk", category: "food", title: "牛乳を飲むとおならが出るのはなぜ？", description: "牛乳でガスや張りが気になる場合、乳糖の消化しにくさが関係することがあります。", conclusion: "牛乳でおならや張りが気になる時は、乳糖を消化しにくい体質が関係することがあります。ただし牛乳だけで決めつけず、量、乳製品の種類、腹痛や下痢の有無を分けて見ましょう。", main: "乳糖を含む食品や飲み物の後に、張り、腹痛、下痢などの消化器症状が出る人がいます。牛乳で毎回つらい場合は、乳糖との関係を疑う材料になります。", check: "少量なら平気、ヨーグルトなら違う、温めると違うなど、人によって体感は変わります。条件を分けて確認します。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["yogurt", "after-meal", "how-many-per-day"] },
+  { slug: "protein", category: "food", title: "プロテインとおならの関係", description: "プロテインでお腹が張る時は、乳成分、甘味料、飲む量、飲み方を分けて確認します。", conclusion: "プロテインでおならが気になる時は、タンパク質そのものだけでなく、乳糖、甘味料、食物繊維、飲む量、早飲みを分けて見ます。商品を変える前に、原材料と1回量を確認しましょう。", main: "ホエイ系のプロテインには乳由来成分が含まれます。乳糖が合わない人では、張りやガス感につながることがあります。", check: "商品によっては甘味料や食物繊維が含まれます。まず半量や少量で試すと、判断しやすくなります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["milk", "fiber", "after-meal"] },
+  { slug: "carbonated-drinks", category: "food", title: "炭酸飲料とおならの関係", description: "炭酸飲料は飲み込む空気やガス感と関係します。げっぷとおならを分けて見ます。", conclusion: "炭酸飲料でガスが気になる時は、飲み込む空気や炭酸による胃の張りを考えます。げっぷとして出る分もあれば、腸へ進んでおならとして出ることもあります。", main: "NIDDKは、炭酸飲料などで飲み込む空気が増え、ガス症状につながることがあると説明しています。", check: "炭酸を飲むとげっぷが増える人もいます。げっぷ、張り、おならを一緒にメモすると、自分の出やすい条件が見えます。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["after-meal", "loud", "how-many-per-day"] },
+  { slug: "onion", category: "food", title: "玉ねぎでおならが気になるのはなぜ？", description: "玉ねぎは人によって発酵しやすい炭水化物が気になり、ガス感につながることがあります。", conclusion: "玉ねぎでおならが気になる時は、消化されにくい炭水化物が大腸で分解される流れを考えます。生か加熱か、量、ほかの食品との組み合わせで体感が変わります。", main: "一部の炭水化物は小腸で十分に消化されず、大腸で細菌に分解されます。この過程でガスが生じます。", check: "生玉ねぎだと気になるが加熱すると違う、少量なら平気など、体感には幅があります。食事全体の中で見ましょう。", sources: [sourceLibrary.niddkDiet, sourceLibrary.niddkSymptoms], relatedSlugs: ["beans", "fiber", "sulfur"] },
+  { slug: "yogurt", category: "food", title: "ヨーグルトとおならの関係", description: "ヨーグルトは乳糖、発酵食品としての個人差、食べる量を分けて見ます。", conclusion: "ヨーグルトでおならが増える人もいれば、気にならない人もいます。乳糖への反応、食べる量、ほかの食物繊維食品との組み合わせを分けて確認しましょう。", main: "ヨーグルトは乳製品です。乳糖が合わない人では、乳製品で張りやガス感、下痢などが出ることがあります。", check: "ヨーグルトを食べれば必ずおならが減る、臭いが消える、とは言えません。体感には個人差があり、食事全体の影響も受けます。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["milk", "gut-bacteria", "fiber"] },
+  { slug: "egg", category: "food", title: "卵とおならの臭いは関係する？", description: "卵と臭いの印象は、硫黄を含む臭い成分の話と混同されやすいテーマです。", conclusion: "卵を食べたから必ずおならが臭くなるとは言えません。ただし、臭いの印象には硫黄を含むガスが関係することがあり、卵を含む食事全体、量、便通をあわせて見る必要があります。", main: "おならの臭いには硫黄を含むガスが関係することがありますが、臭いの強さは食事全体や腸内での過程に左右されます。", check: "卵だけを原因と決める前に、肉、玉ねぎ、豆類、食物繊維量なども見ます。数日単位でメモすると判断しやすくなります。", sources: [sourceLibrary.pubmedOdor, sourceLibrary.niddkSymptoms], relatedSlugs: ["sulfur", "meat", "why-smells"] },
+  { slug: "meat", category: "food", title: "肉を食べるとおならは臭くなる？", description: "肉と臭いの関係は、タンパク質だけでなく食事全体、便通、量を分けて見ます。", conclusion: "肉を食べた日のおならが臭く感じても、肉だけを原因と決めることはできません。臭いには少量の硫黄を含むガスなどが関係し、食事全体、量、便通が印象を変えます。", main: "肉を多く食べた日は、野菜や食物繊維の量、脂質の量、食べる時間も変わっていることがあります。臭いの原因を一つに絞るのは難しいです。", check: "便秘気味の日に臭いが気になる、食べ過ぎた日に張るなど、便通や量との組み合わせを見ます。", sources: [sourceLibrary.pubmedOdor, sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["egg", "sulfur", "why-smells"] },
+  { slug: "fiber", category: "food", title: "食物繊維でおならが増えるのは悪いこと？", description: "食物繊維でガスが増えることがあります。悪いことと決めず、増やし方と体感を見ます。", conclusion: "食物繊維でおならが増えることはありますが、それだけで悪いこととは言えません。大腸で細菌が炭水化物を分解する過程でガスが生じるため、量を急に増やさず、体感を見ながら調整します。", main: "一部の食物繊維や炭水化物は、大腸で細菌に分解され、その過程でガスが生じます。これは仕組みとして自然な面があります。", check: "健康によいと聞いて急に増やすと、お腹の張りやガス感が強くなることがあります。少量から始め、水分や便通も一緒に見ます。", sources: [sourceLibrary.niddkDiet, sourceLibrary.niddkSymptoms], relatedSlugs: ["sweet-potato", "beans", "after-meal"] },
+  { slug: "night", category: "scene", title: "夜におならが気になるときの見方", description: "夜のガス感は夕食、食べる時間、姿勢、便通などを分けて見ると整理しやすくなります。", conclusion: "夜におならが気になる時は、夕食の量と時間、炭酸飲料、食物繊維、便通、寝る前の姿勢を分けて見ます。夜だけで判断せず、朝の体感ともつなげて確認します。", main: "夜のガス感は、夕食の量、食べる時間、炭酸飲料、発酵しやすい食品が重なって強く感じることがあります。", check: "日中に便通がなかった、我慢が多かった、座りっぱなしだったなど、夜までの積み重ねでガス感が目立つことがあります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["sleep", "morning", "after-meal"] },
+  { slug: "empty-stomach", category: "scene", title: "空腹時におならが出ることはある？", description: "食べていない時間でも、消化管のガスがなくなるわけではありません。便通や前の食事も関係します。", conclusion: "空腹時にもおならが出ることはあります。ガスは直前の食事だけで決まらず、飲み込んだ空気、前の食事、大腸での分解、便通の影響を受けます。", main: "消化管のガスは、食事中に飲み込んだ空気や、大腸での分解過程によって生じます。空腹だからゼロになるわけではありません。", check: "今食べていなくても、前の食事で届いた成分が大腸で分解されていることがあります。便通のタイミングも関係します。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.medlineGas], relatedSlugs: ["what-is-fart", "morning", "after-meal"] },
+  { slug: "workplace", category: "scene", title: "職場でおならが気になるとき", description: "職場では我慢や緊張でおならが気になりやすくなります。食事、トイレ導線、相談目安を整理します。", conclusion: "職場でおならが気になる時は、出ること自体を責めるより、食事、炭酸飲料、早食い、トイレへ行くタイミング、我慢の長さを調整します。症状が強い場合は医療相談も選択肢です。", main: "会議中や人が近い席では、おならを我慢しやすくなります。我慢が続くと張りや不快感が気になり、さらに不安が増えることがあります。", check: "朝食や昼食で、炭酸飲料、早食い、急に増やした食物繊維が重なると、職場でガス感が目立つことがあります。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["holding", "after-meal", "date"] },
+  { slug: "date", category: "scene", title: "デート前におならが不安なとき", description: "デート前の不安は、前日の食事、当日の炭酸飲料、トイレのタイミングを整えると軽くしやすくなります。", conclusion: "デート前のおなら不安は、完全に消すより、前日と当日の条件を整える方が現実的です。食べ慣れない食品、炭酸飲料、早食いを避け、トイレに行ける余白を作ります。", main: "食物繊維が多い食品、豆類、乳製品、炭酸飲料などは、人によってガス感が強く出ます。大事な予定の前は、食べ慣れたものを選ぶ方が安心です。", check: "食べない方が安心と思っても、空腹時にもガスは出ます。極端に抜くより、量を控えめにして食べ慣れたものを選びます。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["workplace", "empty-stomach", "holding"] },
+  { slug: "exercise", category: "scene", title: "運動中におならが出そうになるのはなぜ？", description: "運動中は腹圧、姿勢、食事のタイミングが重なり、ガスが動いて気になることがあります。", conclusion: "運動中におならが出そうになる時は、腹圧、体の揺れ、姿勢、運動前の食事や炭酸飲料が関係します。珍しいことと決めつけず、食事の時間と量、トイレのタイミングを調整します。", main: "運動では腹部に力が入り、姿勢や体の揺れで腸内のガスを感じやすくなることがあります。直前に食べた量や飲み物も体感に影響します。", check: "運動前は食べ慣れない食品、炭酸飲料、急に増やした食物繊維を避けると、条件を整えやすくなります。痛みや下痢がある時は無理をしないでください。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.niddkDiet], relatedSlugs: ["after-meal", "carbonated-drinks", "holding"] },
+  { slug: "gut-bacteria", category: "science", title: "おならと腸内細菌の関係", description: "おならには腸内細菌が関わりますが、細菌を単純に善悪で分けることはできません。", conclusion: "おならの一部は、大腸の細菌が未消化の炭水化物を分解する過程で生じます。ただし腸内細菌を善悪で単純に分けたり、検査結果だけでおならの原因を決めたりすることはできません。", main: "NIDDKは、大腸の細菌が未消化の炭水化物を分解する過程でガスを作ると説明しています。腸内細菌はおならの仕組みを考えるうえで重要です。", check: "ある細菌がいるから良い、別の細菌がいるから悪い、と単純に決めることはできません。検査は生活を見直す材料として扱います。", sources: [sourceLibrary.niddkSymptoms, sourceLibrary.pubmedComposition], relatedSlugs: ["components", "fiber", "why-smells"] },
+];
+
+const completedArticles = completedArticleSpecs.map((spec) => publishedArticle({
+  slug: spec.slug,
+  category: spec.category,
+  title: spec.title,
+  description: spec.description,
+  conclusion: spec.conclusion,
+  sections: [
+    { heading: "先に結論", paragraphs: [spec.main] },
+    { heading: "確認するポイント", paragraphs: [spec.check] },
+    { heading: "医療相談の目安", paragraphs: [spec.care ?? "おならの量や臭いだけで体調を決めることはできません。腹痛、下痢、便秘、体重減少、急な変化などがある場合は、自己判断せず医療機関へ相談してください。"] },
+  ],
+  sources: spec.sources,
+  relatedSlugs: spec.relatedSlugs,
+}));
+
+const completedArticleKeys = new Set(completedArticles.map((article) => `${article.category}/${article.slug}`));
+const allArticles = [...articles, ...completedArticles];
+
+export const publishedArticles = allArticles.filter((article): article is Article & { status: "published" } => article.status === "published");
+export const plannedArticles = articles.filter((article): article is Article & { status: "planned" } => article.status === "planned" && !completedArticleKeys.has(`${article.category}/${article.slug}`));
 export const foodTopics = ["さつまいも", "豆", "牛乳", "プロテイン", "玉ねぎ", "炭酸飲料", "ヨーグルト", "卵", "肉", "食物繊維"];
 export const sceneTopics = ["朝", "夜", "寝ている時", "食後", "空腹時", "職場", "デート", "運動中"];
 
@@ -327,11 +389,13 @@ export function getCategory(slug: string) {
 }
 
 export function getArticle(category: string, slug: string) {
-  return articles.find((article) => article.category === category && article.slug === slug);
+  return allArticles.find((article) => article.category === category && article.slug === slug && article.status === "published")
+    ?? articles.find((article) => article.category === category && article.slug === slug);
 }
 
 export function getArticleBySlug(slug: string) {
-  return articles.find((article) => article.slug === slug);
+  return allArticles.find((article) => article.slug === slug && article.status === "published")
+    ?? articles.find((article) => article.slug === slug);
 }
 
 export function getPublishedByCategory(category: string) {

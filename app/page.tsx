@@ -144,7 +144,7 @@ export default function Home() {
       </div>
     </section>
 
-    {!siteConfig.isPublicRelease && <section className="release-strip"><div className="shell release-grid"><div><strong>公開候補 6本</strong><span>資料と表現を確認済み</span></div><div><strong>準備中 14本</strong><span>未確認の下書きは公開しません</span></div><div><strong>医療監修なし</strong><span>診断・治療の情報は扱いません</span></div></div></section>}
+      {!siteConfig.isPublicRelease && <section className="release-strip"><div className="shell release-grid"><div><strong>公開記事を拡充</strong><span>未執筆テーマを本文化</span></div><div><strong>食品・場面も追加</strong><span>食後、職場、デート前まで整理</span></div><div><strong>医療監修なし</strong><span>診断・治療の情報は扱いません</span></div></div></section>}
 
     <section id="questions" className="section">
       <div className="shell"><SectionHeading kicker="BROWSE BY QUESTION" title="疑問から探す" description="分類ごとに、公開中の記事と準備中のテーマを分けて表示します。" />
