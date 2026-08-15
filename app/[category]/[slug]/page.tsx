@@ -125,8 +125,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p>以下は提携中の広告リンクです。記事内容と同じく、治療や改善を保証するものではありません。成分、価格、条件を公式ページで確認してください。</p>
                 <div className="article-pr-grid">
                   {articleAffiliatePrograms.map((program) => (
-                    <a key={program.id} href={program.link} target="_blank" rel="nofollow sponsored noreferrer">
-                      <span>{program.provider}</span>
+                    <a key={program.id} href={`/affiliate/${program.slug}`}>
+                      <span>{program.category}</span>
                       <strong>{program.name}</strong>
                       <small>{program.safeCopy}</small>
                     </a>

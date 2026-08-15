@@ -179,7 +179,7 @@ export default function Home() {
     </div></section>
 
       <section id="about" className="section"><div className="shell about-panel"><div className="lab-seal" aria-hidden="true">ONARA<br />LAB</div><div><p className="eyebrow">ABOUT THIS SITE</p><h2>少し気まずい疑問ほど、<br />落ち着いて調べられる場所に。</h2><p>おなら研究所は、医療機関ではありません。資料を確認しながら、生活の中で気になる疑問を、断定しすぎず分かりやすく整理します。</p><div className="about-points"><span>出典を確認</span><span>未確認は未確認と書く</span><span>診断・治療をしない</span></div><a className="inline-link" href="/about/">サイトの方針を見る →</a></div></div></section>
-      <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR POLICY</p><h2>腸活・食品・エチケット案件を整理中です。</h2><p>提携中の広告案件は、記事の文脈に合うものだけをPR表記つきで扱います。診断・治療・改善保証に見える表現は使いません。</p></div><a className="inline-link" href="/affiliate/">広告案件を見る →</a></div></section>
+ <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR / 商品メモ</p><h2>お腹・においが気になる時の商品選びを整理しています。</h2><p>腸内フローラ検査、食物繊維、プロテイン、エチケット用品を、診断・治療・改善保証ではなく「買う前の確認先」として紹介します。</p></div><a className="inline-link" href="/affiliate/">商品メモを見る →</a></div></section>
       <SiteFooter />
   </main>;
 }

@@ -18,11 +18,11 @@ export function SiteHeader() {
         <span className="sr-only">メニューを開く</span><span aria-hidden="true">☰</span>
       </button>
       <nav className="desktop-nav" aria-label="主要メニュー">
-        <a href="/#questions">疑問から探す</a><a href="/#science">科学で調べる</a><a href="/affiliate/">広告案件</a><a href="/about/">サイトについて</a>
+ <a href="/#questions">疑問から探す</a><a href="/#science">科学で調べる</a><a href="/affiliate/">商品メモ</a><a href="/about/">サイトについて</a>
       </nav>
     </div>
     {menuOpen && <nav id="mobile-menu" className="mobile-nav" aria-label="モバイルメニュー">
-      <a href="/#questions" onClick={closeMenu}>疑問から探す</a><a href="/#science" onClick={closeMenu}>科学で調べる</a><a href="/affiliate/" onClick={closeMenu}>広告案件</a><a href="/about/" onClick={closeMenu}>サイトについて</a><a href="/sources/" onClick={closeMenu}>参考資料</a>
+ <a href="/#questions" onClick={closeMenu}>疑問から探す</a><a href="/#science" onClick={closeMenu}>科学で調べる</a><a href="/affiliate/" onClick={closeMenu}>商品メモ</a><a href="/about/" onClick={closeMenu}>サイトについて</a><a href="/sources/" onClick={closeMenu}>参考資料</a>
     </nav>}
   </header>;
 }
