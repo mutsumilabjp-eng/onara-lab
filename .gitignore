@@ -41,3 +41,6 @@ next-env.d.ts
 /outputs/
 /work/
 /.gh-pages-publish/
+
+# Temporary source downloads from Google Drive
+incoming_drive_comics/
