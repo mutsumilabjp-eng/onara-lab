@@ -8,7 +8,6 @@ const mykinso = affiliatePrograms.find((program) => program.id === "a8-mykinso")
 const floraScan = affiliatePrograms.find((program) => program.id === "a8-premedica");
 const pageName = "MykinsoとFlora Scanはどう違う？腸内フローラ検査を選ぶ時の確認ポイント";
 const sourceArticle = "compare/gut-flora-tests";
-const confirmedDate = "2026-08-18";
 
 export const metadata: Metadata = {
   title: "MykinsoとFlora Scanはどう違う？腸内フローラ検査を選ぶ時の確認ポイント",
@@ -87,7 +86,7 @@ export default function GutFloraTestsComparisonPage() {
             <section className="article-section">
               <h2>まず、同じ項目で比べます</h2>
               <p>以下は、公式ページで確認できた内容を整理した表です。価格・仕様・キャンペーンは変わるため、確認日を付けています。申し込み前には、必ずリンク先の最新情報と利用規約をご確認ください。</p>
-              <p className="comparison-update-note">確認日：{confirmedDate}。価格・検査内容・利用条件は変更される場合があります。最新情報は各公式ページで確認してください。</p>
+              <p className="comparison-update-note">確認日：2026-08-18。価格・検査内容・利用条件は変更される場合があります。最新情報は各公式ページで確認してください。</p>
               <div className="comparison-table-wrap">
                 <table className="comparison-table">
                   <thead><tr><th>比較項目</th><th>Mykinso</th><th>Flora Scan</th></tr></thead>
@@ -97,8 +96,8 @@ export default function GutFloraTestsComparisonPage() {
                     <tr><th>結果の確認方法</th><td>マイページ上でWeb閲覧します。アカウント登録後に検査結果を確認する仕組みです。</td><td>結果報告書が案内されています。専属管理栄養士による無料の腸活アドバイスはオンラインまたは電話で利用できると案内されています。</td></tr>
                     <tr><th>主に確認できる内容</th><td>腸内細菌の割合・バランス、腸内環境のA〜Eの5段階評価、主要細菌の割合、菌種別の構成比率などが案内されています。</td><td>腸内細菌のバランス、5つの腸内フローラタイプ、要注意菌の有無などが案内されています。公式には10の疾患との関連度の案内もありますが、診断目的ではありません。</td></tr>
                     <tr><th>結果が届くまでの目安</th><td>返送した検体がラボへ到着してから約3〜4週間後に閲覧可能と案内されています。</td><td>公式情報で詳細を確認できなかったため、申込み前に公式ページでご確認ください。</td></tr>
-                    <tr><th>現在価格</th><td>税込19,800円。確認日：{confirmedDate}。</td><td>税込19,800円。確認日：{confirmedDate}。</td></tr>
-                    <tr><th>送料等</th><td>公式通販で送料無料の表示を確認しました。確認日：{confirmedDate}。</td><td>公式情報で詳細を確認できなかったため、申込み前に公式ページでご確認ください。</td></tr>
+                    <tr><th>現在価格</th><td>税込19,800円。確認日：2026-08-18。</td><td>税込19,800円。確認日：2026-08-18。</td></tr>
+                    <tr><th>送料等</th><td>公式通販で送料無料の表示を確認しました。確認日：2026-08-18。</td><td>公式情報で詳細を確認できなかったため、申込み前に公式ページでご確認ください。</td></tr>
                     <tr><th>結果後に利用できる情報</th><td>マイページで検査結果に加え、コラムやレシピ等のコンテンツを閲覧できると案内されています。2回目以降は推移も閲覧できます。</td><td>結果報告書と、専属管理栄養士による無料の腸活アドバイスが案内されています。</td></tr>
                     <tr><th>個人情報・検体情報</th><td>公式情報で詳細を確認できなかったため、申込み前に公式ページでご確認ください。</td><td>公式情報で詳細を確認できなかったため、申込み前に公式ページでご確認ください。</td></tr>
                     <tr><th>向いている人</th><td>食事や体感の記録と結果をあわせて見たい人、複数回の検査で推移も確認したい人にとって、検査範囲を確認する候補です。</td><td>自宅で進める流れ、結果報告書、結果後の管理栄養士アドバイスまで確認して選びたい人にとって、利用条件を確認する候補です。</td></tr>
@@ -149,7 +148,7 @@ export default function GutFloraTestsComparisonPage() {
 
             <section className="article-section comparison-sources">
               <h2>公式情報源</h2>
-              <p>以下の公式ページを{confirmedDate}に確認しました。料金・発送・利用条件は変更される場合があります。</p>
+              <p>以下の公式ページを2026-08-18に確認しました。料金・発送・利用条件は変更される場合があります。</p>
               <ul>
                 <li><a href="https://mykinso.com/gut-v2" target="_blank" rel="noreferrer">Mykinso｜検査の流れ・結果閲覧の公式案内</a></li>
                 <li><a href="https://store.mykinso.com/shop/products/kit_v2_ec_4793" target="_blank" rel="noreferrer">Mykinso公式通販｜価格・送料無料の表示</a></li>
