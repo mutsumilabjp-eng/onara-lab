@@ -21,6 +21,7 @@ const affiliatePlacements: Record<string, string[]> = {
   "amount/how-many-per-day": ["a8-mykinso"],
   "food/milk": ["a8-rakuten-acadi"],
   "food/protein": ["moshimo-lyft", "a8-rakuten-nichiga-soy"],
+  "food/yogurt": ["moshimo-happy-tempe"],
 };
 
 function getArticleAffiliatePrograms(article: Article) {
