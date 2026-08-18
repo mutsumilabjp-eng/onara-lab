@@ -185,7 +185,7 @@ export default function Home() {
     </div></section>
 
       <section id="about" className="section"><div className="shell about-panel"><div className="lab-seal" aria-hidden="true">ONARA<br />LAB</div><div><p className="eyebrow">ABOUT THIS SITE</p><h2>少し気まずい疑問ほど、<br />落ち着いて調べられる場所に。</h2><p>おなら研究所は、医療機関ではありません。資料を確認しながら、生活の中で気になる疑問を、断定しすぎず分かりやすく整理します。</p><div className="about-points"><span>出典を確認</span><span>未確認は未確認と書く</span><span>診断・治療をしない</span></div><a className="inline-link" href="/about/">サイトの方針を見る →</a></div></div></section>
- <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR / 商品メモ</p><h2>商品名ではなく、いま気になることから確認先を選べます。</h2><p>腸内フローラ検査、食物繊維、プロテイン、エチケット用品を、診断・治療・改善保証ではなく、成分・料金・検査範囲を確認するための商品メモとして紹介します。</p></div><a className="inline-link" href="/affiliate/">悩みから商品メモを見る →</a></div></section>
+ <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR / 商品メモ</p><h2>対策や商品まで確認したい方へ</h2><p>原因を調べたあと、「では何を選べばいい？」まで確認したい方向けに、腸内フローラ検査・食物繊維・プロテイン・エチケット用品を悩み別に整理しています。</p></div><a className="inline-link" href="/affiliate/">悩みから商品選びを見る →</a></div></section>
       <SiteFooter />
   </main>;
 }

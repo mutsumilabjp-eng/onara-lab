@@ -3,9 +3,10 @@
 import type { AnchorHTMLAttributes, MouseEvent } from "react";
 
 type TrackedLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  eventName: "article_to_product_click" | "affiliate_cta_click";
-  program?: string;
-  placement: string;
+  eventName: "product_memo_click" | "affiliate_click";
+  articleName?: string;
+  productName: string;
+  ctaPosition: "top" | "middle" | "bottom";
 };
 
 declare global {
@@ -15,20 +16,22 @@ declare global {
   }
 }
 
-export function TrackedLink({ eventName, program, placement, onClick, ...props }: TrackedLinkProps) {
+export function TrackedLink({ eventName, articleName, productName, ctaPosition, onClick, ...props }: TrackedLinkProps) {
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     const payload = {
       event: eventName,
-      affiliate_program: program ?? "",
-      cta_placement: placement,
+      article_name: articleName ?? "",
+      product_name: productName,
+      cta_position: ctaPosition,
       destination: props.href ?? "",
     };
 
     window.dataLayer = window.dataLayer ?? [];
     window.dataLayer.push(payload);
     window.gtag?.("event", eventName, {
-      affiliate_program: program ?? "",
-      cta_placement: placement,
+      article_name: articleName ?? "",
+      product_name: productName,
+      cta_position: ctaPosition,
       destination: props.href ?? "",
     });
     onClick?.(event);

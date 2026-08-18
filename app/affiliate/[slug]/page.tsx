@@ -8,80 +8,118 @@ import { TrackedLink } from "../../components/TrackedLink";
 type ProductPageProps = { params: Promise<{ slug: string }> };
 type CtaStage = "intro" | "checklist" | "final";
 
-const ctaDetails: Partial<Record<string, { intro: string; checklist: string; final: string }>> = {
-  "a8-mykinso": {
-    intro: "検査で分かる項目・料金を公式で確認する",
-    checklist: "検査範囲・結果の見方・料金を確認する",
-    final: "生活メモと合わせて検査内容を確認する",
+type CtaCopy = { heading?: string; description?: string; label: string };
+type CtaCopyByStage = { intro: CtaCopy; checklist: CtaCopy; final: CtaCopy };
+
+const genericCtaCopy: CtaCopyByStage = {
+  intro: {
+    heading: "こんな人なら、まず確認する価値があります",
+    description: "自分の状況に近いと感じた場合は、購入を急がず、商品ページで判断材料を確認してください。",
+    label: "公式ページで確認する",
   },
-  "a8-premedica": {
-    intro: "検査キットの流れ・料金を公式で確認する",
-    checklist: "結果の確認方法・利用条件を確認する",
-    final: "自宅検査の内容を確認する",
+  checklist: {
+    heading: "公式ページで確認する項目が整理できたら",
+    description: "価格だけで決めず、上で整理した確認項目が自分の条件に合うか、公式情報で見てください。",
+    label: "確認項目を公式で見る",
   },
-  "a8-inulin": {
-    intro: "原材料・1回量・価格を確認する",
-    checklist: "摂り方・注意事項・価格を確認する",
-    final: "少量から試す前提で商品情報を確認する",
-  },
-  "a8-ladies-rose": {
-    intro: "成分・飲み方を公式で確認する",
-    checklist: "成分・注意事項・価格を確認する",
-    final: "外出前の準備に合うか公式で確認する",
-  },
-  "moshimo-lyft": {
-    intro: "原材料・フレーバー・価格を確認する",
-    checklist: "乳成分・甘味料・1回量を確認する",
-    final: "自分の条件に合う商品を公式で確認する",
-  },
-  "a8-rakuten-acadi": {
-    intro: "乳糖の量・内容量・価格を確認する",
-    checklist: "原材料・アレルゲン・在庫を確認する",
-    final: "少量から比較する条件を確認する",
-  },
-  "a8-rakuten-nichiga-soy": {
-    intro: "原材料・アレルゲン・価格を確認する",
-    checklist: "乳成分・甘味料・1回量を確認する",
-    final: "原材料を比較して販売ページを確認する",
-  },
-  "moshimo-happy-tempe": {
-    intro: "原材料・アレルゲン・内容量を確認する",
-    checklist: "栄養成分・価格・在庫を確認する",
-    final: "間食として合うか販売ページを確認する",
+  final: {
+    heading: "条件に合いそうなら、最後に公式情報を確認します",
+    description: "向いている条件と向かない条件を読んだうえで、公式ページの最新情報を確認してください。",
+    label: "商品情報を公式で確認する",
   },
 };
 
-function getCtaLabel(program: AffiliateProgram, stage: CtaStage) {
-  return ctaDetails[program.id]?.[stage] ?? program.ctaLabel;
+const ctaCopies: Partial<Record<string, CtaCopyByStage>> = {
+  "a8-mykinso": {
+    intro: {
+      heading: "なんとなく腸活する前に、確認材料を増やしたい人へ",
+      description: "食事を変えても何が自分に合うか整理しにくい時は、腸内環境について確認できる材料を一つ増やす選択肢があります。",
+      label: "検査で分かる項目・料金を確認する",
+    },
+    checklist: { ...genericCtaCopy.checklist, label: "検査範囲・結果レポート・料金を確認する" },
+    final: {
+      heading: "ここまでの条件に合いそうなら、最後に公式情報を確認します",
+      description: "Mykinsoだけでおならの原因が分かるわけではありません。それでも食生活や腸内環境を考える材料を一つ増やしたい人には、検討候補になります。",
+      label: "Mykinsoの検査内容・料金を確認する",
+    },
+  },
+  "a8-premedica": {
+    intro: {
+      heading: "自宅で検査の流れまで確認してから決めたい人へ",
+      description: "自宅で検査を進める手順や、結果を受け取った後に何を確認するかを先に知りたい人向けの選択肢です。",
+      label: "検査キットの流れ・料金を確認する",
+    },
+    checklist: { ...genericCtaCopy.checklist, label: "結果の確認方法・利用条件を確認する" },
+    final: { ...genericCtaCopy.final, label: "Flora Scanの検査内容・料金を確認する" },
+  },
+  "a8-inulin": {
+    intro: {
+      heading: "食物繊維を、量から見直したい人へ",
+      description: "普段の食事だけでは食物繊維を意識しにくく、飲み物や食事に加えやすい形を探しているなら、商品内容を確認する選択肢があります。",
+      label: "原材料・内容量・価格を確認する",
+    },
+    checklist: { ...genericCtaCopy.checklist, label: "1回量・摂り方・価格を確認する" },
+    final: { ...genericCtaCopy.final, label: "条件に合いそうなら、イヌリンの商品情報を見る" },
+  },
+  "a8-ladies-rose": {
+    intro: {
+      heading: "人と会う前に、準備を一つ増やしたい人へ",
+      description: "「もし気づかれたら」と考え始めると、せっかくの予定でも会話に集中しにくくなります。食事やトイレの準備に加えて、エチケット用品も確認したい人向けの選択肢です。",
+      label: "成分・飲み方・価格を確認する",
+    },
+    checklist: { ...genericCtaCopy.checklist, label: "成分・香り・摂り方を確認する" },
+    final: { ...genericCtaCopy.final, label: "外出前の準備として合いそうか確認する" },
+  },
+  "moshimo-lyft": {
+    intro: {
+      heading: "LYFTを見る前に、この3点だけ確認します",
+      description: "乳成分、甘味料、1回量を確認したうえで候補に残るなら、フレーバーや価格を見て比較します。",
+      label: "原材料・フレーバー・価格を見る",
+    },
+    checklist: { ...genericCtaCopy.checklist, label: "乳成分・甘味料・1回量を確認する" },
+    final: { ...genericCtaCopy.final, label: "条件に合うフレーバーがあるか公式で確認する" },
+  },
+  "a8-rakuten-acadi": {
+    intro: { ...genericCtaCopy.intro, label: "乳糖の量・原材料・内容量を確認する" },
+    checklist: { ...genericCtaCopy.checklist, label: "原材料・アレルゲン・在庫を確認する" },
+    final: { ...genericCtaCopy.final, label: "少量から比較する条件を確認する" },
+  },
+  "a8-rakuten-nichiga-soy": {
+    intro: { ...genericCtaCopy.intro, label: "原材料・アレルゲン・価格を確認する" },
+    checklist: { ...genericCtaCopy.checklist, label: "乳成分・甘味料・1回量を確認する" },
+    final: { ...genericCtaCopy.final, label: "原材料を比較して販売ページを確認する" },
+  },
+  "moshimo-happy-tempe": {
+    intro: { ...genericCtaCopy.intro, label: "原材料・アレルゲン・内容量を確認する" },
+    checklist: { ...genericCtaCopy.checklist, label: "栄養成分・価格・在庫を確認する" },
+    final: { ...genericCtaCopy.final, label: "間食として合うか販売ページを確認する" },
+  },
+};
+
+function getCtaCopy(program: AffiliateProgram, stage: CtaStage) {
+  return ctaCopies[program.id]?.[stage] ?? { ...genericCtaCopy[stage], label: program.ctaLabel };
 }
 
 function ProductCta({ program, stage }: { program: AffiliateProgram; stage: CtaStage }) {
-  const headings: Record<CtaStage, string> = {
-    intro: "こんな人なら、まず確認する価値があります",
-    checklist: "公式ページで確認する項目が整理できたら",
-    final: "条件に合いそうなら、最後に公式情報を確認します",
-  };
-  const descriptions: Record<CtaStage, string> = {
-    intro: "ここまで読んで自分の状況に近いと感じた場合は、商品ページの基本情報を先に確認してください。購入を急ぐ必要はありません。",
-    checklist: "価格だけで決めず、上で整理した確認項目が自分の条件に合うか、公式情報で見てください。",
-    final: program.ctaLead,
-  };
+  const copy = getCtaCopy(program, stage);
+  const ctaPosition = stage === "intro" ? "top" : stage === "checklist" ? "middle" : "bottom";
 
   return (
     <section className={`product-cta product-cta-${stage}`}>
       <p className="article-pr-label">PR</p>
-      <h2>{headings[stage]}</h2>
-      <p>{descriptions[stage]}</p>
+      <h2>{copy.heading}</h2>
+      <p>{copy.description}</p>
       <TrackedLink
         href={program.link}
         target="_blank"
         rel="nofollow sponsored noreferrer"
-        eventName="affiliate_cta_click"
-        program={program.slug}
-        placement={`affiliate/${program.slug}/${stage}`}
+        eventName="affiliate_click"
+        productName={program.name}
+        ctaPosition={ctaPosition}
       >
-        {getCtaLabel(program, stage)}
+        {copy.label}
       </TrackedLink>
+      <small className="affiliate-disclosure">PR｜リンク先は公式販売ページです</small>
     </section>
   );
 }

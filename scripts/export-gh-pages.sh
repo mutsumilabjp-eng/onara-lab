@@ -9,6 +9,16 @@ rm -rf "$output_dir"
 mkdir -p "$output_dir"
 cp -a "$repo_root/dist/client/." "$output_dir/"
 
+page_files() {
+  git -C "$repo_root" ls-tree -r --name-only gh-pages | grep -E '(^|/)index\.html$'
+
+  # 商品メモは動的ルートのため、過去のgh-pagesツリーに存在しない新規ページも明示的に出力する。
+  sed -nE 's/^[[:space:]]*slug: "([^"]+)".*/affiliate\/\1\/index.html/p' "$repo_root/app/affiliate-content.ts"
+
+  # 比較検討ページも、初回公開時から静的出力の対象に含める。
+  printf '%s\n' 'compare/gut-flora-tests/index.html'
+}
+
 while IFS= read -r page_file; do
   if [[ "$page_file" == "index.html" ]]; then
     route="/"
@@ -17,7 +27,7 @@ while IFS= read -r page_file; do
   fi
   mkdir -p "$output_dir/$(dirname "$page_file")"
   curl --fail --silent --show-error "$base_url$route" > "$output_dir/$page_file"
-done < <(git -C "$repo_root" ls-tree -r --name-only gh-pages | grep -E '(^|/)index\.html$')
+done < <(page_files | sort -u)
 
 for root_file in 404.html CNAME .nojekyll robots.txt sitemap.xml; do
   git -C "$repo_root" show "gh-pages:$root_file" > "$output_dir/$root_file"

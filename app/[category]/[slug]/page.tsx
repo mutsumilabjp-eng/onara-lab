@@ -46,25 +46,32 @@ const articleProductGuides: Record<string, ProductGuide> = {
     ],
   },
   "food/fiber": {
-    title: "食物繊維を増やしたい時は、量とペースを先に確認します",
-    description: "おならが気になる人ほど、急に食物繊維を増やすと体感が分かりにくくなります。商品を見る前に、原材料と1回量を確認してください。",
+    title: "食物繊維を増やしたいなら、「種類」より先に量を確認します",
+    description: "食品だけでは食物繊維を調整しにくい場合は、水溶性食物繊維の商品を選択肢として見ることもできます。ただし、最初から多く摂るのではなく、原材料・1回量・摂り方を確認して選びます。",
     choices: [
-      { programId: "a8-inulin", prompt: "水溶性食物繊維を候補として比較したい", description: "原材料・1回量・価格・少量から試す前提を確認する" },
+      { programId: "a8-inulin", prompt: "水溶性食物繊維を商品で確認したい", description: "イヌリンを選ぶ時に確認したい、原材料・1回量・増やすペースを整理する" },
     ],
   },
   "food/milk": {
     title: "牛乳の後に気になる時は、乳糖と量を分けて見ます",
     description: "牛乳で毎回つらいからといって、商品だけで原因を決めることはできません。乳糖の量や内容量を比較する前提で、商品メモを確認してください。",
     choices: [
-      { programId: "a8-rakuten-acadi", prompt: "乳糖を調整した飲料の選択肢を比較したい", description: "乳糖の量・内容量・原材料・少量から試す条件を確認する" },
+      { programId: "a8-rakuten-acadi", prompt: "乳糖を調整した飲料の選択肢を比較したい", description: "乳糖の量・原材料・内容量を確認して、少量から試す条件を整理する" },
     ],
   },
   "food/protein": {
-    title: "プロテインの後に気になる時は、原材料から分けて確認します",
-    description: "プロテインでお腹が張る時は、乳成分、甘味料、飲む量、飲むタイミングを一度に変えないことが大切です。気になる条件に近い商品メモを選んでください。",
+    title: "プロテインを変える前に、何が気になるか分けます",
+    description: "プロテインでお腹が気になる場合、全員が同じ商品へ変える必要はありません。まず「乳成分を含む商品を比較したい」のか、「乳成分を避けた候補を見たい」のかを分けると選びやすくなります。",
     choices: [
-      { programId: "moshimo-lyft", prompt: "ホエイ系プロテインの原材料やフレーバーを確認したい", description: "乳成分・甘味料・1回量・価格を確認する" },
-      { programId: "a8-rakuten-nichiga-soy", prompt: "乳由来以外のプロテインを原材料から比較したい", description: "大豆・甘味料・アレルゲン・1回量を確認する" },
+      { programId: "moshimo-lyft", prompt: "ホエイ系プロテインを原材料から確認したい", description: "LYFTについて、乳成分・甘味料・1回量・フレーバーを確認する" },
+      { programId: "a8-rakuten-nichiga-soy", prompt: "乳成分を避けたプロテインも比較したい", description: "大豆100％のソイプロテインを候補に、原材料・甘味料・アレルゲンを確認する" },
+    ],
+  },
+  "scene/date": {
+    title: "当日の不安を少し減らすために、できる準備",
+    description: "前日・当日の食事、炭酸飲料、トイレのタイミングを整えるのが基本です。そのうえで、人と会う前のにおいがどうしても気になる場合は、エチケット用品も準備の一つとして確認できます。",
+    choices: [
+      { programId: "a8-ladies-rose", prompt: "外出前のエチケット用品を確認したい", description: "レディーズローズを例に、成分・飲み方・期待しすぎないためのポイントを整理する" },
     ],
   },
 };
@@ -186,9 +193,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <TrackedLink
                       key={program.id}
                       href={`/affiliate/${program.slug}`}
-                      eventName="article_to_product_click"
-                      program={program.slug}
-                      placement={`${article.category}/${article.slug}`}
+                      eventName="product_memo_click"
+                      articleName={article.title}
+                      productName={program.name}
+                      ctaPosition="bottom"
                     >
                       <span>{prompt}</span>
                       <strong>{program.name}</strong>
