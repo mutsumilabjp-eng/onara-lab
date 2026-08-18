@@ -16,8 +16,11 @@ type ArticlePageProps = { params: Promise<{ category: string; slug: string }> };
 const affiliatePlacements: Record<string, string[]> = {
   "basic/what-is-fart": ["a8-mykinso", "a8-inulin"],
   "science/components": ["a8-mykinso", "a8-premedica"],
+  "science/gut-bacteria": ["a8-mykinso"],
   "smell/why-smells": ["a8-ladies-rose", "a8-inulin"],
-  "amount/how-many-per-day": ["a8-mykinso", "moshimo-lyft"],
+  "amount/how-many-per-day": ["a8-mykinso"],
+  "food/milk": ["a8-rakuten-acadi"],
+  "food/protein": ["moshimo-lyft", "a8-rakuten-nichiga-soy"],
 };
 
 function getArticleAffiliatePrograms(article: Article) {
