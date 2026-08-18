@@ -20,8 +20,17 @@
       "_framework-CXnKph_e.js"
     ]
   },
+  "app/components/TrackedLink.tsx": {
+    "file": "assets/TrackedLink-C2xaierM.js",
+    "name": "TrackedLink",
+    "src": "app/components/TrackedLink.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_framework-CXnKph_e.js"
+    ]
+  },
   "app/page.tsx": {
-    "file": "assets/page-Dv5I3o4z.js",
+    "file": "assets/page-BO0802wZ.js",
     "name": "page",
     "src": "app/page.tsx",
     "isDynamicEntry": true,
@@ -32,7 +41,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "assets/layout-segment-context-CVZqkzpI.js",
+    "file": "assets/layout-segment-context-oovTQTA6.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -43,7 +52,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "assets/index-DsU_5GPq.js",
+    "file": "assets/index-BOm8L1Hy.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
@@ -53,6 +62,7 @@
     ],
     "dynamicImports": [
       "node_modules/vinext/dist/shims/layout-segment-context.js",
+      "app/components/TrackedLink.tsx",
       "app/components/SiteHeader.tsx",
       "virtual:vinext-app-browser-entry",
       "app/page.tsx"
