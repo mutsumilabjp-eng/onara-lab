@@ -41,6 +41,13 @@ const sceneTopicLinks: Record<string, string> = {
   "運動中": "/scene/exercise/",
 };
 
+const solutionGuides = [
+  { title: "臭いが気になる", description: "原因を整理してから、外出前のエチケット・食事・検査のどれを確認するか選びます。", articleHref: "/smell/why-smells/", articleLabel: "臭いの仕組みを読む", productHref: "/affiliate/", productLabel: "悩み別の商品メモへ" },
+  { title: "腸内環境を詳しく知りたい", description: "検査で分かる範囲と、食生活を見直す材料としての使い方を確認します。", articleHref: "/science/gut-bacteria/", articleLabel: "腸内細菌の関係を読む", productHref: "/affiliate/", productLabel: "検査の確認先を見る" },
+  { title: "プロテインの後に気になる", description: "乳成分、甘味料、飲む量を分けてから、原材料の比較に進みます。", articleHref: "/food/protein/", articleLabel: "プロテインの記事を読む", productHref: "/affiliate/", productLabel: "比較の確認先を見る" },
+  { title: "牛乳の後に張りやガス感がある", description: "乳糖、飲む量、乳製品の種類を分けて、選択肢を確認します。", articleHref: "/food/milk/", articleLabel: "牛乳の記事を読む", productHref: "/affiliate/", productLabel: "乳糖の確認先を見る" },
+];
+
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -125,8 +132,9 @@ export default function Home() {
       <div className="shell hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">おなら・放屁・腸内ガスの疑問を調べる専門メディア</p>
-          <h1>おならの疑問、<br />だいたいここで調べられます。</h1>
-          <p className="hero-lead">臭い、回数、食べ物、寝ている間のこと。少し気になるけれど聞きにくい疑問を、科学・医学・生活の視点でほどいていきます。</p>
+          <h1>おならの臭い・回数。<br />お腹の張り。<br />人には聞きにくい疑問を<br />落ち着いて整理します。</h1>
+          <p className="hero-lead">「なぜ？」を調べるだけでなく、食生活や日常で確認できること、必要に応じて商品を選ぶ時のポイントまで、分かっていること・分からないことを分けて紹介します。</p>
+          <div className="hero-actions"><a className="hero-primary-action" href="#questions">悩みから調べる</a><a className="hero-secondary-action" href="#product-guide">対策・商品を探す</a></div>
           <form className="site-search" onSubmit={submitSearch} role="search">
             <label className="sr-only" htmlFor="hero-search">公開中の記事を検索</label>
             <input id="hero-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="例：おならが臭い、回数、放屁" />
@@ -143,6 +151,12 @@ export default function Home() {
       </div>
     </section>
 
+
+    <section id="product-guide" className="section solution-guide-section">
+      <div className="shell"><SectionHeading kicker="NEXT STEP GUIDE" title="気になることから、次の確認先を選ぶ" description="情報を読んでから、必要なら商品メモで確認項目を整理します。" />
+        <div className="solution-guide-grid">{solutionGuides.map((guide) => <article key={guide.title} className="solution-guide-card"><p>{guide.title}</p><span>{guide.description}</span><div><a href={guide.articleHref}>{guide.articleLabel} →</a><a href={guide.productHref}>{guide.productLabel} →</a></div></article>)}</div>
+      </div>
+    </section>
 
     <section id="questions" className="section">
       <div className="shell"><SectionHeading kicker="BROWSE BY QUESTION" title="疑問から探す" description="気になるテーマから、記事を探せます。" />
@@ -171,7 +185,7 @@ export default function Home() {
     </div></section>
 
       <section id="about" className="section"><div className="shell about-panel"><div className="lab-seal" aria-hidden="true">ONARA<br />LAB</div><div><p className="eyebrow">ABOUT THIS SITE</p><h2>少し気まずい疑問ほど、<br />落ち着いて調べられる場所に。</h2><p>おなら研究所は、医療機関ではありません。資料を確認しながら、生活の中で気になる疑問を、断定しすぎず分かりやすく整理します。</p><div className="about-points"><span>出典を確認</span><span>未確認は未確認と書く</span><span>診断・治療をしない</span></div><a className="inline-link" href="/about/">サイトの方針を見る →</a></div></div></section>
- <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR / 商品メモ</p><h2>お腹・においが気になる時の商品選びを整理しています。</h2><p>腸内フローラ検査、食物繊維、プロテイン、エチケット用品を、診断・治療・改善保証ではなく「買う前の確認先」として紹介します。</p></div><a className="inline-link" href="/affiliate/">商品メモを見る →</a></div></section>
+ <section className="section affiliate-strip"><div className="shell affiliate-strip-inner"><div><p className="eyebrow">PR / 商品メモ</p><h2>商品名ではなく、いま気になることから確認先を選べます。</h2><p>腸内フローラ検査、食物繊維、プロテイン、エチケット用品を、診断・治療・改善保証ではなく、成分・料金・検査範囲を確認するための商品メモとして紹介します。</p></div><a className="inline-link" href="/affiliate/">悩みから商品メモを見る →</a></div></section>
       <SiteFooter />
   </main>;
 }
