@@ -34,7 +34,7 @@ function ComparisonAffiliateButton({
         eventName="comparison_product_click"
         pageName={pageName}
         sourceArticle={sourceArticle}
-        productName={program.name}
+        productName={program.id === "a8-mykinso" ? "mykinso" : "flora_scan"}
         ctaPosition={position}
       >
         {children}
@@ -45,6 +45,7 @@ function ComparisonAffiliateButton({
 }
 
 function ProductMemoLink({ program, position = "middle" }: { program: NonNullable<typeof mykinso>; position?: "middle" | "bottom" }) {
+  const memoName = program.id === "a8-mykinso" ? "Mykinso" : "Flora Scan";
   return (
     <TrackedLink
       className="comparison-internal-link"
@@ -55,7 +56,7 @@ function ProductMemoLink({ program, position = "middle" }: { program: NonNullabl
       productName={program.name}
       ctaPosition={position}
     >
-      まだ迷う方は{program.name}の商品メモを読む →
+      まだ迷う方は{memoName}の商品メモを読む →
     </TrackedLink>
   );
 }
@@ -84,9 +85,9 @@ export default function GutFloraTestsComparisonPage() {
             </section>
 
             <section className="article-section">
-              <h2>比較する前に、具体的に確認すること</h2>
+              <h2>まず、同じ項目で比べます</h2>
               <p>以下は、公式ページで確認できた内容を整理した表です。価格・仕様・キャンペーンは変わるため、確認日を付けています。申し込み前には、必ずリンク先の最新情報と利用規約をご確認ください。</p>
-              <p className="comparison-update-note">確認日：{confirmedDate}。最新情報は各公式ページをご確認ください。</p>
+              <p className="comparison-update-note">確認日：{confirmedDate}。価格・検査内容・利用条件は変更される場合があります。最新情報は各公式ページで確認してください。</p>
               <div className="comparison-table-wrap">
                 <table className="comparison-table">
                   <thead><tr><th>比較項目</th><th>Mykinso</th><th>Flora Scan</th></tr></thead>
