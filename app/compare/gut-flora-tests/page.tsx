@@ -148,7 +148,7 @@ export default function GutFloraTestsComparisonPage() {
             </section>
 
             <section className="article-section comparison-sources">
-              <h2>比較に使用した公式情報源</h2>
+              <h2>公式情報源</h2>
               <p>以下の公式ページを{confirmedDate}に確認しました。料金・発送・利用条件は変更される場合があります。</p>
               <ul>
                 <li><a href="https://mykinso.com/gut-v2" target="_blank" rel="noreferrer">Mykinso｜検査の流れ・結果閲覧の公式案内</a></li>
